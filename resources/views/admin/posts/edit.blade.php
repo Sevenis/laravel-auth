@@ -12,7 +12,7 @@
      @endif
 
 
-     <form action="{{ route('posts.store') }}" method="post">
+     <form action="{{ route('posts.update' , $post->id) }}" method="post">
       @csrf
       @method('POST')
        <div class="form-group">
