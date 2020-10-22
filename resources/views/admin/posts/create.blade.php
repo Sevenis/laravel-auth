@@ -5,7 +5,7 @@
       @method('POST')
        <div class="form-group">
          <label for="title">Titolo</label>
-         <input type="text" class="form-control" aria-describedby="Inserisci il titolo" placeholder="Titolo post">
+         <input type="text" name="title" class="form-control" aria-describedby="Inserisci il titolo" placeholder="Titolo post">
        </div>
        <div class="form-group">
          <label for="body">Testo</label>

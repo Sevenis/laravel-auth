@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-Use App\Post;
+use App\Post;
+use Illuminate\Http\Request;
+
 
 class PostController extends Controller
 {
@@ -44,6 +45,7 @@ class PostController extends Controller
             'body'=>'required|min:5|max:500 '
         ]);
         $data['user_id'] = Auth::id();
+        $data['slug'] = Str::slug($data['title'], '-');
         $newPost = new Post();
         $newPost->fill($data);
         $saved = $newPost->save();
