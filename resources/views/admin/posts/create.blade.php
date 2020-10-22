@@ -1,6 +1,6 @@
  @extends('layouts.app')
  @section('content')
-     //Gestione errori
+     {{-- //Gestione errori --}}
      @if ($errors->any())
         <div class="alert alert-danger">
             <ul>

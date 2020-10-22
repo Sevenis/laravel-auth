@@ -1,5 +1,10 @@
 @extends('layouts.app')
 @section('content')
+    @if(session('status'))
+        <div class="alert alert-success">
+            {{ session('status') }}
+        </div>
+    @endif
 
     <table class="table">
       <thead>
@@ -17,7 +22,7 @@
              <td>{{$post->title}}</td>
              <td><a href="{{ route('posts.edit', $post->id) }}">Edit</a></td>
              <td>
-                 <form class="{{ route('posts.destroy', $post->id) }}" method="post">
+                 <form action="{{ route('posts.destroy', $post->id) }}" method="post">
                      @csrf
                      @method('DELETE')
                      <button type="submit" name="button" class="btn btn-primary">Cancella</button>

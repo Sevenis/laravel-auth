@@ -1,6 +1,6 @@
  @extends('layouts.app')
  @section('content')
-     //Gestione errori
+     {{-- //Gestione errori --}}
      @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
@@ -14,14 +14,14 @@
 
      <form action="{{ route('posts.update' , $post->id) }}" method="post">
       @csrf
-      @method('POST')
+      @method('PATCH ')
        <div class="form-group">
          <label for="title">Titolo</label>
-         <input type="text" name="title" class="form-control" aria-describedby="Inserisci il titolo" placeholder="Titolo post">
+         <input type="text" name="title" class="form-control" value="{{ $post->title }}">
        </div>
        <div class="form-group">
          <label for="body">Testo</label>
-         <textarea class="form-control" name="body" rows="3"></textarea>
+         <textarea class="form-control" name="body" rows="3" >{{ $post->body }}</textarea>
        </div>
        <button type="submit" class="btn btn-primary">Submit</button>
      </form>

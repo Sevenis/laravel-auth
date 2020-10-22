@@ -86,15 +86,16 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $post)
+    public function update(Request $request, Post $post)
     {
         $data= $request->all(); //array di dati
         $data['slug']= str::slug($data['title'], '-');
+        // inserire il validate
         $post->update($data); //istruzione update sql
-        $post->save(); //istruzione salva la sql
-        return redirect()->route('posts.index')->with('statusEdit','Hai modificato il post! Id ' . $post->id);
+        // $post->save(); //istruzione salva la sql
+        return redirect()->route('posts.index')->with('status','Hai modificato il post! Id ' . $post->id);
     }
-    
+
 
     /**
      * Remove the specified resource from storage.
@@ -105,6 +106,6 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         $post->delete();
-        return redirect()->route('posts.index')->with('statusDelete','Hai cancellato il post! Id ' . $post->id);
+        return redirect()->route('posts.index')->with('status','Hai cancellato il post! Id ' . $post->id);
     }
 }
