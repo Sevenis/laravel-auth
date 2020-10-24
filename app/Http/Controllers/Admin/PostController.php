@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Post;
+use App\Tag;
 use Illuminate\Http\Request;
 
 
@@ -31,7 +32,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('admin.posts.create');
+        $tags= Tag::all();
+        return view('admin.posts.create', compact('tags'));
     }
 
     /**
@@ -52,6 +54,8 @@ class PostController extends Controller
         $newPost = new Post();
         $newPost->fill($data);
         $saved = $newPost->save();
+        $newPost->tags()->attach($data['tags']);
+
         if($saved){
             return redirect()->route('posts.index');
         }
@@ -63,9 +67,14 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Post $post)
     {
-        //
+        $users = User::all();
+        $id = $post['user_id'];
+        $user = $users->find($id);
+        $nomeUtente = $user['name'];
+        $tags = $post['tags'];
+        return view('admin.posts.show', compact('post','nomeUtente','tags'));
     }
 
     /**
@@ -76,7 +85,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('admin.posts.edit',compact('post'));
+        $tags = Tag::all();
+        return view('admin.posts.edit',compact('post', 'tags'));
     }
 
     /**

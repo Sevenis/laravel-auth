@@ -5,7 +5,7 @@
             {{ session('status') }}
         </div>
     @endif
-
+    <div class="container">
     <table class="table">
       <thead>
         <tr>
@@ -19,7 +19,7 @@
         @foreach ($posts as $post)
         <tr>
              <th scope="row">{{$post->id}}</th>
-             <td>{{$post->title}}</td>
+             <td><a href="{{ route('posts.show', $post->id) }}">{{ $post->title }}</a></td>
              <td><a href="{{ route('posts.edit', $post->id) }}">Edit</a></td>
              <td>
                  <form action="{{ route('posts.destroy', $post->id) }}" method="post">
@@ -32,4 +32,5 @@
         @endforeach
       </tbody>
     </table>
+    </div>
 @endsection
