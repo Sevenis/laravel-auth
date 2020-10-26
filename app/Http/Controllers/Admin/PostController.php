@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Carbon\carbon;
 use App\Post;
 use App\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage ;
+
 
 
 class PostController extends Controller
@@ -21,7 +24,7 @@ class PostController extends Controller
     {
         // $posts = Post::all();
         //seleziono solo i post dell'utente loggato
-        $posts = Post::where('user_id',Auth::id())->orderBy('created_at','desc')->get();
+        $posts = Post::where('user_id',Auth::id())->orderBy('created_at','desc')->paginate(1);
         return view('admin.posts.index', compact('posts'));
     }
 
@@ -52,6 +55,9 @@ class PostController extends Controller
         $data['user_id'] = Auth::id();
         $data['slug'] = Str::slug($data['title'], '-');
         $newPost = new Post();
+        if(!empty($data['path_img'])){
+            $data['path_img'] = Storage::disk('public')->put('images',$data[path_img]);
+        }
         $newPost->fill($data);
         $saved = $newPost->save();
         $newPost->tags()->attach($data['tags']);
@@ -69,12 +75,12 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        $users = User::all();
-        $id = $post['user_id'];
-        $user = $users->find($id);
-        $nomeUtente = $user['name'];
-        $tags = $post['tags'];
-        return view('admin.posts.show', compact('post','nomeUtente','tags'));
+        // $users = User::all();
+        // $id = $post['user_id'];
+        // $user = $users->find($id);
+        // $nomeUtente = $user['name'];
+        // $tags = $post['tags'];
+        // return view('admin.posts.show', compact('post','nomeUtente','tags'));
     }
 
     /**
@@ -100,9 +106,17 @@ class PostController extends Controller
     {
         $data= $request->all(); //array di dati
         $data['slug']= str::slug($data['title'], '-');
+        //aggiorna la data
+        $data['updated_at'] = Carbon::now();
         // inserire il validate
-        $post->update($data); //istruzione update sql
+        //istruzione update sql
         // $post->save(); //istruzione salva la sql
+        if(!empty($data['tags'])){
+            $post->tags()->sync($data['tags']);
+        } else {
+            $post->tags()->detach();
+        }
+        $post->update($data);
         return redirect()->route('posts.index')->with('status','Hai modificato il post! Id ' . $post->id);
     }
 

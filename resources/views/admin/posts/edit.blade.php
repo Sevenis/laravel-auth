@@ -1,5 +1,7 @@
  @extends('layouts.app')
  @section('content')
+
+
      {{-- //Gestione errori --}}
      @if ($errors->any())
         <div class="alert alert-danger">
@@ -26,7 +28,7 @@
        <div class="form-group">
            @foreach ($tags as $tag)
                <label for="tag">{{ $tag -> name }}</label>
-               <input type="checkbox" name="tags[]" value=" {{ $tag-> id}}" "{{($post->tags->contains($tag->id) ? 'checked')}}">
+               <input type="checkbox" name="tags[]" value=" {{ $tag-> id }} " {{($post->tags->contains($tag->id) ? 'checked' : "")}}>
            @endforeach
        </div>
        <button type="submit" class="btn btn-primary">Submit</button>

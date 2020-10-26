@@ -12,7 +12,8 @@
      @endif
 
  <div class="container center">
-     <form action="{{ route('posts.store') }}" method="post">
+     {{-- enctype ti permette l'upload dei file --}}
+     <form action="{{ route('posts.store') }}" method="post" enctype="multipart/form-data">
       @csrf
       @method('POST')
        <div class="form-group">
@@ -20,7 +21,12 @@
          <input type="text" name="title" class="form-control" aria-describedby="Inserisci il titolo" placeholder="Titolo post">
        </div>
        <div class="form-group">
+           {{-- accept="image/*" significa che accetta img di qualsiasi formato --}}
          <label for="body">Testo</label>
+         <input type="file" name="path_img" accept="image/*"></textarea>
+       </div>
+       <div class="form-group">
+         <label for="img">Immagine</label>
          <textarea class="form-control" name="body" rows="3"></textarea>
        </div>
        <div class="form-group">
