@@ -16,7 +16,12 @@
 <div class="container">
      <form action="{{ route('posts.update' , $post->id) }}" method="post">
       @csrf
-      @method('PATCH ')
+      @method('PATCH')
+      <img src="{{ asset('storage/') . $post['path_img'] }}" alt="{{ $post->slug }}" width="300px">
+       <div class="form-group">
+         <label for="body">Immagine</label>
+         <input type="file" name="path_img" accept="image/*">
+       </div>
        <div class="form-group">
          <label for="title">Titolo</label>
          <input type="text" name="title" class="form-control" value="{{ $post->title }}">

@@ -10,7 +10,8 @@
           <thead>
             <tr>
               <th scope="col">ID</th>
-              <th scope="col">Title</th>
+              <th scope="col">Autore</th>
+              <th scope="col">Titolo</th>
               <th scope="col">Edit</th>
               <th scope="col">Delete</th>
             </tr>
@@ -19,7 +20,8 @@
             @foreach ($posts as $post)
             <tr>
                  <th scope="row">{{$post->id}}</th>
-                 <td><a href="{{ route('posts.show', $post->id) }}">{{ $post->title }}</a></td>
+                 <td><a href="{{ route('guest.posts.show', $post->id) }}">{{ $post->user->name }}</a></td>
+                 <td><a href="{{ route('guest.posts.show', $post->id) }}">{{ $post->title }}</a></td>
                  <td><a href="{{ route('posts.edit', $post->id) }}">Edit</a></td>
                  <td>
                      <form action="{{ route('posts.destroy', $post->id) }}" method="post">
@@ -33,7 +35,7 @@
           </tbody>
         </table>
         <div class="mt-5 justify-content-center">
-            {{ $posts->links() }}
+            {{-- {{ $posts->links() }} --}}
         </div>
     </div>
 @endsection

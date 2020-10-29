@@ -9,7 +9,7 @@ use Carbon\carbon;
 use App\Post;
 use App\Tag;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage ;
+use Illuminate\Support\Facades\Storage;
 
 
 
@@ -22,9 +22,11 @@ class PostController extends Controller
      */
     public function index()
     {
-        // $posts = Post::all();
-        //seleziono solo i post dell'utente loggato
-        $posts = Post::where('user_id',Auth::id())->orderBy('created_at','desc')->paginate(1);
+        if((Auth::user()->role->role)== "admin"){
+            $posts = Post::paginate();
+        } elseif ((Auth::user()->role->role)== "writer") {
+            $posts = Post::where('user_id',Auth::id())->orderBy('created_at','desc')->paginate(1);
+        }
         return view('admin.posts.index', compact('posts'));
     }
 
@@ -50,16 +52,21 @@ class PostController extends Controller
         $data= $request->all();
         $request->validate([
             'title'=>'required|min:5|max:100',
-            'body'=>'required|min:5|max:500 '
+            'body'=>'required|min:5|max:500 ',
+            'img' => 'image'
         ]);
         $data['user_id'] = Auth::id();
         $data['slug'] = Str::slug($data['title'], '-');
         $newPost = new Post();
+
         if(!empty($data['path_img'])){
-            $data['path_img'] = Storage::disk('public')->put('images',$data[path_img]);
+            $data['path_img'] = Storage::disk('public')->put('images',$data['path_img']);
         }
+
         $newPost->fill($data);
+
         $saved = $newPost->save();
+
         $newPost->tags()->attach($data['tags']);
 
         if($saved){

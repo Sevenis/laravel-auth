@@ -22,11 +22,11 @@
        </div>
        <div class="form-group">
            {{-- accept="image/*" significa che accetta img di qualsiasi formato --}}
-         <label for="body">Testo</label>
-         <input type="file" name="path_img" accept="image/*"></textarea>
+         <label for="body">Immagine</label>
+         <input type="file" name="path_img" accept="image/*">
        </div>
        <div class="form-group">
-         <label for="img">Immagine</label>
+         <label for="img">Testo</label>
          <textarea class="form-control" name="body" rows="3"></textarea>
        </div>
        <div class="form-group">
